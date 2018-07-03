@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.tile {
+  padding: 5px;
+  margin: 5px;
+  height: 80px;
+  width: 80px;
+  float: left;
+}
+
+.tile.red {
+  background: #d84444;
+}
+
+.tile.voltorb {
+  background-image: url('./img/voltorb.png');
+}
