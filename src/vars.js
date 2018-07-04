@@ -1,4 +1,5 @@
 export const VOLTORB = 'VOLTORB';
+export const VOLTORB_IMG_URL = '../img/voltorb.png';
 
 
 // #### minimum numbers ####
@@ -16,16 +17,16 @@ export const HARD_MODE = 'HARD_MODE';
 // #### difficulty setting configurations ####
 // the percentages refer to how many voltorbs will be on the board
 export const EASY_SETTINGS = {
-	min_percentage: 10,
-	max_percentage: 20
+	min_percentage: 15,
+	max_percentage: 25
 };
 export const MEDIUM_SETTINGS = {
-	min_percentage: 21,
-	max_percentage: 30
+	min_percentage: 26,
+	max_percentage: 35
 };
 export const HARD_SETTINGS = {
-	min_percentage: 31,
-	max_percentage: 40
+	min_percentage: 36,
+	max_percentage: 45
 };
 
 

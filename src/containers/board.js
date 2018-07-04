@@ -37,7 +37,6 @@ class Board extends Component {
 		let currRow = 0;
 		let i = 0;
 		let tempTileArr = [];
-		console.log(this.props.tiles);
 		const keys = Object.keys(this.props.tiles);
 		while (keys[i]) {
 			const tile = this.props.tiles[keys[i]];
@@ -48,11 +47,9 @@ class Board extends Component {
 			} else {
 				tempTileArr.push(tile);
 			}
-			console.log("rowsArr: ",rowsArr,"i:",i);
 			i++;
 		}
 		rowsArr.push(this.generateRow(tempTileArr, currRow));
-		console.log("final rowsArr: ",rowsArr);
 		return rowsArr;
 	}
 

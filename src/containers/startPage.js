@@ -17,14 +17,14 @@ class StartPage extends Component {
 	render() {
 		const rowsInput = (
 			<input
-				onChange={this.props.updateNumRows}
+				onChange={(e) => {this.props.updateNumRows(e.target.value)}}
 				value={this.props.num_rows}
 			/>
 		);
 
 		const colsInput = (
 			<input
-				onChange={this.props.updateNumCols}
+				onChange={(e) => {this.props.updateNumCols(e.target.value)}}
 				value={this.props.num_cols}
 			/>
 		);

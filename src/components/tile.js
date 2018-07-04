@@ -5,7 +5,7 @@ import * as vars from '../vars';
 const getContents = props => {
 	var contents = props.flipped? props.contents : "";
 	if (contents === vars.VOLTORB)
-		contents = 'TODO VOLTORB IMG';
+		contents = "";
 	return contents;
 };
 
@@ -18,11 +18,10 @@ const getClassName = props => {
 
 const Tile = props => {
 	const contents = getContents(props);
-	const className = `${props.className} ${getClassName(props)}`;
+	const className = `${props.className} vcenter ${getClassName(props)}`;
 	return (
 		<div style={props.style} className={className} onClick={props.flipped? null : props.onClick}>
 			{contents}
-			efkerk
 		</div>
 	);
 }
