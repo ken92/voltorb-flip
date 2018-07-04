@@ -14,10 +14,15 @@ class Board extends Component {
 		);
 	}
 
+	onTileClick = key => {
+		console.log("key ",key);
+		this.props.flipTile(key);
+	}
+
 	generateTile = tile => {
 		return (
 			<Tile key={tile.id}
-				onClick={() => {}}
+				onClick={() => {this.onTileClick(`${tile.x}.${tile.y}`)}}
 				flipped={tile.flipped}
 				contents={tile.contents}
 				className="tile"
@@ -41,7 +46,7 @@ class Board extends Component {
 		while (keys[i]) {
 			const tile = this.props.tiles[keys[i]];
 			if (tile.y !== currRow) {
-				rowsArr.push(this.generateRow(tempTileArr, currRow));
+				rowsArr.unshift(this.generateRow(tempTileArr, currRow));
 				currRow = tile.y;
 				tempTileArr = [tile];
 			} else {
@@ -49,7 +54,7 @@ class Board extends Component {
 			}
 			i++;
 		}
-		rowsArr.push(this.generateRow(tempTileArr, currRow));
+		rowsArr.unshift(this.generateRow(tempTileArr, currRow));
 		return rowsArr;
 	}
 
@@ -67,6 +72,7 @@ class Board extends Component {
 
 Board.propTypes = {
 	tiles: PropTypes.object,
+	flipTile: PropTypes.func.isRequired,
 	num_cols: PropTypes.number.isRequired,
 	num_rows: PropTypes.number.isRequired
 };

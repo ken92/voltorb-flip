@@ -88,13 +88,13 @@ export const createNewTilesBoard = async (rows, columns, difficultySetting) => {
 	let currentTileId = 1;
 	for (let y = 0; y < rows; y++) {
 		for (let x = 0; x < columns; x++) {
-			const constX = y;
-			const constY = x;
+			const constX = x;
+			const constY = y;
 			const id = currentTileId;
 			const t = new Tile({
 				id,
-				y: constX,
-				x: constY,
+				y: constY,
+				x: constX,
 				contents: contentArray[currentTileId - 1]
 			});
 			newTiles[`${constX}.${constY}`] = t;
