@@ -7,11 +7,13 @@ import {createNewTilesBoard} from '../util';
 
 class StartPage extends Component {
 	startGame = async () => {
-		const newBoard = await createNewTilesBoard(this.props.num_rows, this.props.num_cols, this.props.difficultySetting);
-		this.props.setTiles(newBoard);
+		const {tiles, headers} = await createNewTilesBoard(this.props.num_rows, this.props.num_cols, this.props.difficultySetting);
+		this.props.setTiles(tiles);
+		this.props.setHeaders(headers);
 		this.props.hideStartScreen();
 		this.props.startGame();
-		console.log(newBoard);
+		console.log(tiles);
+		console.log(headers);
 	}
 
 	render() {
@@ -48,6 +50,8 @@ StartPage.propTypes = {
 	num_rows: PropTypes.number.isRequired,
 	num_cols: PropTypes.number.isRequired,
 
+	setHeaders: PropTypes.func.isRequired,
+	setTiles: PropTypes.func.isRequired,
 	startGame: PropTypes.func.isRequired,
 	hideStartScreen: PropTypes.func.isRequired,
 };

@@ -25,14 +25,33 @@ class Board extends Component {
 				onClick={() => {this.onTileClick(`${tile.x}.${tile.y}`)}}
 				flipped={tile.flipped}
 				contents={tile.contents}
-				className="tile"
 			/>
 		);
 	}
-	generateRow = (tempTileArr, rowNumber) => {
+	generateHeaderTile = (value, key = '') => {
+		return (
+			<Tile key={key}
+				header={true}
+				contents={value}
+			/>
+		);
+	}
+	generateRow = (tempTileArr, rowNumber, headerValue) => {
 		return (
 			<div key={rowNumber} className="row">
 				{tempTileArr.map(tile => {return this.generateTile(tile)})}
+				{this.generateHeaderTile(headerValue)}
+			</div>
+		);
+	}
+	generateColumnHeadersRow = (rowNumber) => {
+		const columnHeaders = [];
+		for (let i = 0; i < this.props.num_cols; i++) {
+			columnHeaders.push(this.generateHeaderTile(this.props.headers[`${i}xh`], i));
+		}
+		return (
+			<div key={rowNumber} className="row">
+				{columnHeaders}
 			</div>
 		);
 	}
@@ -46,7 +65,7 @@ class Board extends Component {
 		while (keys[i]) {
 			const tile = this.props.tiles[keys[i]];
 			if (tile.y !== currRow) {
-				rowsArr.unshift(this.generateRow(tempTileArr, currRow));
+				rowsArr.unshift(this.generateRow(tempTileArr, currRow, this.props.headers[`${currRow}yh`]));
 				currRow = tile.y;
 				tempTileArr = [tile];
 			} else {
@@ -54,7 +73,13 @@ class Board extends Component {
 			}
 			i++;
 		}
-		rowsArr.unshift(this.generateRow(tempTileArr, currRow));
+		rowsArr.unshift(this.generateRow(tempTileArr, currRow, this.props.headers[`${currRow}yh`]));
+		rowsArr.push(this.generateColumnHeadersRow(currRow + 1));
+
+		// generate column headers
+		// currRow++;
+		
+
 		return rowsArr;
 	}
 
@@ -80,6 +105,7 @@ Board.propTypes = {
 
 function mapStateToProps(state) {
 	return {
+		headers: state.board_headers,
 		tiles: state.tiles,
 		num_rows: state.game.num_rows,
 		num_cols: state.game.num_cols

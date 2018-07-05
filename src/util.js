@@ -85,21 +85,35 @@ export const getNewTileContentsArray = (rows, columns, difficultySetting) => {
 export const createNewTilesBoard = async (rows, columns, difficultySetting) => {
 	const contentArray = await getNewTileContentsArray(rows, columns, difficultySetting);
 	const newTiles = {};
+	const newHeaders = {};
 	let currentTileId = 1;
 	for (let y = 0; y < rows; y++) {
+		newHeaders[`${y}yh`] = 0;
 		for (let x = 0; x < columns; x++) {
 			const constX = x;
 			const constY = y;
+
+			if (!newHeaders[`${constX}xh`])
+				newHeaders[`${constX}xh`] = 0;
+
+			const contents = contentArray[currentTileId - 1];
+			if (contents != vars.VOLTORB) {
+				newHeaders[`${constX}xh`] += contents;
+				newHeaders[`${constY}yh`] += contents;
+			}
 			const id = currentTileId;
 			const t = new Tile({
 				id,
 				y: constY,
 				x: constX,
-				contents: contentArray[currentTileId - 1]
+				contents
 			});
 			newTiles[`${constX}.${constY}`] = t;
 			currentTileId++;
 		}
 	}
-	return newTiles;
+	return {
+		tiles: newTiles,
+		headers: newHeaders
+	};
 };
