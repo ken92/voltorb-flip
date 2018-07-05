@@ -35,8 +35,8 @@ export const getNumFromPercentageRange = (total, {min_percentage, max_percentage
 	const percentage = getRandomInt(min_percentage, max_percentage);
 	return Math.round(total * (percentage / 100));
 };
-export const getNumVoltorbs = (totalNumTiles, difficultySetting) => {
-	return Math.max(getNumFromPercentageRange(totalNumTiles, getDifficultyConfigurationFromMode(difficultySetting)), vars.MINIMUM_VOLTORBS);
+export const getNumVoltorbs = (totalNumTiles, difficulty_setting) => {
+	return Math.max(getNumFromPercentageRange(totalNumTiles, getDifficultyConfigurationFromMode(difficulty_setting)), vars.MINIMUM_VOLTORBS);
 };
 
 export const getNumFours = (numFreeTiles) => {
@@ -60,12 +60,12 @@ export const placeContentInArray = (content, contentArray, numSpotsToTake, freeT
 	});
 };
 
-export const getNewTileContentsArray = (rows, columns, difficultySetting) => {
+export const getNewTileContentsArray = (rows, columns, difficulty_setting) => {
 	return new Promise(async (resolve, reject) => {
 		const totalNumTiles = rows * columns;
 		const tileContentsArray = Array(totalNumTiles).fill(1);
 
-		const numVoltorbs = getNumVoltorbs(totalNumTiles, difficultySetting);
+		const numVoltorbs = getNumVoltorbs(totalNumTiles, difficulty_setting);
 		const numFours = getNumFours(totalNumTiles - numVoltorbs);
 		const numThrees = getNumThrees(totalNumTiles - numVoltorbs - numFours);
 
@@ -82,11 +82,12 @@ export const getNewTileContentsArray = (rows, columns, difficultySetting) => {
 	});
 };
 
-export const createNewTilesBoard = async (rows, columns, difficultySetting) => {
-	const contentArray = await getNewTileContentsArray(rows, columns, difficultySetting);
+export const createNewTilesBoard = async (rows, columns, difficulty_setting) => {
+	const contentArray = await getNewTileContentsArray(rows, columns, difficulty_setting);
 	const newTiles = {};
 	const newHeaders = {};
 	let currentTileId = 1;
+	let numValueTiles = 0;
 	for (let y = 0; y < rows; y++) {
 		newHeaders[`${y}yh`] = 0;
 		for (let x = 0; x < columns; x++) {
@@ -97,9 +98,11 @@ export const createNewTilesBoard = async (rows, columns, difficultySetting) => {
 				newHeaders[`${constX}xh`] = 0;
 
 			const contents = contentArray[currentTileId - 1];
-			if (contents != vars.VOLTORB) {
+			if (contents !== vars.VOLTORB) {
 				newHeaders[`${constX}xh`] += contents;
 				newHeaders[`${constY}yh`] += contents;
+				if (contents > 1)
+					numValueTiles++;
 			}
 			const id = currentTileId;
 			const t = new Tile({
@@ -114,6 +117,7 @@ export const createNewTilesBoard = async (rows, columns, difficultySetting) => {
 	}
 	return {
 		tiles: newTiles,
-		headers: newHeaders
+		headers: newHeaders,
+		numValueTiles
 	};
 };

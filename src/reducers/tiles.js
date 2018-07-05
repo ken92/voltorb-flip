@@ -16,7 +16,7 @@ export const actions = {
 
 
 // tile key structure: x.y
-// e.g., top left tile would be 0.0
+// e.g., bottom left tile would be 0.0
 const INITIAL_STATE = {};
 
 

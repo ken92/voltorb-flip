@@ -15,8 +15,23 @@ class Board extends Component {
 	}
 
 	onTileClick = key => {
-		console.log("key ",key);
 		this.props.flipTile(key);
+
+		// do something according to tile contents
+		const tile = this.props.tiles[key];
+		console.log("clicked tile: ",tile);
+		if (tile.contents === vars.VOLTORB) {
+			// TODO game over
+			console.log("lose!");
+		} else if (tile.contents > 1) {
+			const valueTilesLeft = this.props.num_value_tiles_left - 1;
+			this.props.setNumValueTilesLeft(valueTilesLeft);
+
+			if (valueTilesLeft === 0) {
+				// TODO level win
+				console.log("win!");
+			}
+		}
 	}
 
 	generateTile = tile => {
@@ -76,10 +91,6 @@ class Board extends Component {
 		rowsArr.unshift(this.generateRow(tempTileArr, currRow, this.props.headers[`${currRow}yh`]));
 		rowsArr.push(this.generateColumnHeadersRow(currRow + 1));
 
-		// generate column headers
-		// currRow++;
-		
-
 		return rowsArr;
 	}
 
@@ -98,6 +109,7 @@ class Board extends Component {
 Board.propTypes = {
 	tiles: PropTypes.object,
 	flipTile: PropTypes.func.isRequired,
+	num_value_tiles_left: PropTypes.number.isRequired,
 	num_cols: PropTypes.number.isRequired,
 	num_rows: PropTypes.number.isRequired
 };
@@ -107,6 +119,7 @@ function mapStateToProps(state) {
 	return {
 		headers: state.board_headers,
 		tiles: state.tiles,
+		num_value_tiles_left: state.game.num_value_tiles_left,
 		num_rows: state.game.num_rows,
 		num_cols: state.game.num_cols
 	};

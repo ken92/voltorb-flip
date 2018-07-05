@@ -7,13 +7,15 @@ import {createNewTilesBoard} from '../util';
 
 class StartPage extends Component {
 	startGame = async () => {
-		const {tiles, headers} = await createNewTilesBoard(this.props.num_rows, this.props.num_cols, this.props.difficultySetting);
+		const {tiles, headers, numValueTiles} = await createNewTilesBoard(this.props.num_rows, this.props.num_cols, this.props.difficulty_setting);
 		this.props.setTiles(tiles);
 		this.props.setHeaders(headers);
+		this.props.setNumValueTilesLeft(numValueTiles);
 		this.props.hideStartScreen();
 		this.props.startGame();
 		console.log(tiles);
 		console.log(headers);
+		console.log(numValueTiles);
 	}
 
 	render() {
@@ -46,19 +48,20 @@ class StartPage extends Component {
 }
 
 StartPage.propTypes = {
-	difficultySetting: PropTypes.string.isRequired,
+	difficulty_setting: PropTypes.string.isRequired,
 	num_rows: PropTypes.number.isRequired,
 	num_cols: PropTypes.number.isRequired,
 
 	setHeaders: PropTypes.func.isRequired,
 	setTiles: PropTypes.func.isRequired,
+	setNumValueTilesLeft: PropTypes.func.isRequired,
 	startGame: PropTypes.func.isRequired,
 	hideStartScreen: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
 	return {
-		difficultySetting: state.game.difficultySetting,
+		difficulty_setting: state.game.difficulty_setting,
 		num_rows: state.game.num_rows,
 		num_cols: state.game.num_cols
 	};
