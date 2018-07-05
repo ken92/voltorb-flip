@@ -9,6 +9,8 @@ export const UPDATE_NUM_COLS = 'GAME_UPDATE_NUM_COLS';
 
 export const SET_NUM_VALUE_TILES_LEFT = 'GAME_SET_NUM_VALUE_TILES_LEFT';
 
+export const SET_PENCIL_MODE = 'GAME_SET_PENCIL_MODE';
+
 
 // #### action creators ####
 export const showStartScreen = () => ({type: SET_SHOW_START_SCREEN, payload: true});
@@ -21,6 +23,9 @@ export const updateNumRows = payload => ({type: UPDATE_NUM_ROWS, payload});
 export const updateNumCols = payload => ({type: UPDATE_NUM_COLS, payload});
 
 export const setNumValueTilesLeft = payload => ({type: SET_NUM_VALUE_TILES_LEFT, payload});
+
+export const pencilModeOn = () => ({type: SET_PENCIL_MODE, payload: true});
+export const pencilModeOff = () => ({type: SET_PENCIL_MODE, payload: false});
 export const actions = {
 	showStartScreen,
 	hideStartScreen,
@@ -31,7 +36,10 @@ export const actions = {
 	updateNumRows,
 	updateNumCols,
 
-	setNumValueTilesLeft
+	setNumValueTilesLeft,
+
+	pencilModeOn,
+	pencilModeOff
 };
 
 
@@ -43,7 +51,9 @@ const INITIAL_STATE = {
 	num_rows: 3,
 	num_cols: 3,
 
-	num_value_tiles_left: 0
+	num_value_tiles_left: 0,
+
+	pencil_mode: false
 };
 
 
@@ -66,6 +76,9 @@ export default function(state = INITIAL_STATE, action) {
 
 		case SET_NUM_VALUE_TILES_LEFT:
 			return {...state, num_value_tiles_left: action.payload};
+
+		case SET_PENCIL_MODE:
+			return {...state, pencil_mode: action.payload};
 
 		default:
 			return state;

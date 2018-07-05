@@ -6,6 +6,7 @@ const GameScreen = (props) => {
 		<div className="container">
 			<h2>Level [TODO]</h2>
 			{props.children}
+			{props.pencilModeButton}
 			{props.giveUpButton}
 		</div>
 	);
@@ -13,6 +14,7 @@ const GameScreen = (props) => {
 
 GameScreen.propTypes = {
 	children: PropTypes.any.isRequired,
+	pencilModeButton: PropTypes.element.isRequired,
 	giveUpButton: PropTypes.element.isRequired
 };
 
