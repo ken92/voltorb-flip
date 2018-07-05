@@ -1,14 +1,17 @@
 // #### action types ####
 export const SET_TILES = 'TILES_SET_TILES';
 export const FLIP_TILE = 'TILES_FLIP_TILE';
+export const FLIP_ALL_TILES = 'TILES_FLIP_ALL_TILES';
 
 
 // #### action creators ####
 export const setTiles = payload => ({type: SET_TILES, payload});
 export const flipTile = payload => ({type: FLIP_TILE, payload});
+export const flipAllTiles = payload => ({type: FLIP_ALL_TILES, payload});
 export const actions = {
 	setTiles,
-	flipTile
+	flipTile,
+	flipAllTiles
 };
 
 
@@ -26,6 +29,14 @@ export default function(state = INITIAL_STATE, action) {
 			let newState = {...state};
 			let key = action.payload;
 			newState[key].flipped = true;
+			return newState;
+
+		case FLIP_ALL_TILES:
+			newState = {...state};
+			let keys = Object.keys(newState);
+			for (let i = 0; i < keys.length; i++) {
+				newState[keys[i]].flipped = true;
+			}
 			return newState;
 
 		default:

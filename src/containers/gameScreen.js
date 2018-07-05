@@ -6,9 +6,13 @@ import GameScreenDisplay from '../components/gameScreen';
 import Board from './board';
 
 class GameScreen extends Component {
+	giveUp = () => {
+		this.props.flipAllTiles();
+	}
+
 	render() {
 		const giveUpButton = (
-			<button className="btn btn-primary">Give Up</button>
+			<button className="btn btn-primary" onClick={this.giveUp}>Give Up</button>
 		);
 		return (
 			<GameScreenDisplay
@@ -21,6 +25,7 @@ class GameScreen extends Component {
 }
 
 GameScreen.propTypes = {
+	flipAllTiles: PropTypes.func.isRequired,
 	game_running: PropTypes.bool.isRequired
 };
 
