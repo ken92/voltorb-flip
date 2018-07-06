@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import actions from '../reducers/actions';
 import GameScreenDisplay from '../components/gameScreen';
 import Board from './board';
+import * as vars from '../vars';
 
 class GameScreen extends Component {
 	giveUp = () => {
@@ -14,20 +15,15 @@ class GameScreen extends Component {
 		if (this.props.pencil_mode)
 			this.props.pencilModeOff();
 		else
-			this.props.pencilModeOn();
+			this.props.pencilModeOn(vars.VOLTORB);
 	}
 
 	render() {
-		const giveUpButton = (
-			<button className="btn btn-danger" onClick={this.giveUp}>Give Up</button>
-		);
-		const pencilModeButton = (
-			<button className={`btn btn-${this.props.pencil_mode? "primary" : "secondary"}`} onClick={this.pencilModeToggle}>Pencil Mode {this.props.pencil_mode? "On" : "Off"}</button>
-		);
 		return (
 			<GameScreenDisplay
-				giveUpButton={giveUpButton}
-				pencilModeButton={pencilModeButton}
+				giveUp={this.giveUp}
+				pencilModeToggle={this.pencilModeToggle}
+				pencil_mode={this.props.pencil_mode}
 			>
 				<Board />
 			</GameScreenDisplay>
@@ -52,7 +48,7 @@ GameScreen.defaultProps = {
 function mapStateToProps(state) {
 	return {
 		game_running: state.game.game_running,
-		pencil_mode: state.game.pencil_mode
+		pencil_mode: !!(state.game.pencil_mode)
 	};
 }
 

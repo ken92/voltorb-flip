@@ -24,7 +24,7 @@ export const updateNumCols = payload => ({type: UPDATE_NUM_COLS, payload});
 
 export const setNumValueTilesLeft = payload => ({type: SET_NUM_VALUE_TILES_LEFT, payload});
 
-export const pencilModeOn = () => ({type: SET_PENCIL_MODE, payload: true});
+export const pencilModeOn = mode => ({type: SET_PENCIL_MODE, payload: mode});
 export const pencilModeOff = () => ({type: SET_PENCIL_MODE, payload: false});
 export const actions = {
 	showStartScreen,

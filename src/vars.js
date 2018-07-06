@@ -39,3 +39,11 @@ export const THREE_PERCENTAGE = {
 	min_percentage: 30,
 	max_percentage: 37
 };
+
+
+// #### pencil mode options ####
+// voltorb is shared with the one above
+export const ONE = 'ONE';
+export const TWO = 'TWO';
+export const THREE = 'THREE';
+export const FOUR = 'FOUR';
