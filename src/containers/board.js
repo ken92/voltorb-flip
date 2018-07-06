@@ -23,6 +23,7 @@ class Board extends Component {
 		if (tile.contents === vars.VOLTORB) {
 			// TODO game over
 			console.log("lose!");
+			this.props.stopGame();
 		} else if (tile.contents > 1) {
 			const valueTilesLeft = this.props.num_value_tiles_left - 1;
 			this.props.setNumValueTilesLeft(valueTilesLeft);
@@ -30,14 +31,16 @@ class Board extends Component {
 			if (valueTilesLeft === 0) {
 				// TODO level win
 				console.log("win!");
+				this.props.stopGame();
 			}
 		}
 	}
 
 	generateTile = tile => {
+		const clickFunc = this.props.game_running? () => {this.onTileClick(`${tile.x}.${tile.y}`)} : null;
 		return (
 			<Tile key={tile.id}
-				onClick={() => {this.onTileClick(`${tile.x}.${tile.y}`)}}
+				onClick={clickFunc}
 				flipped={tile.flipped}
 				contents={tile.contents}
 			/>
@@ -108,10 +111,12 @@ class Board extends Component {
 
 Board.propTypes = {
 	tiles: PropTypes.object,
+	stopGame: PropTypes.func.isRequired,
 	flipTile: PropTypes.func.isRequired,
 	num_value_tiles_left: PropTypes.number.isRequired,
 	num_cols: PropTypes.number.isRequired,
-	num_rows: PropTypes.number.isRequired
+	num_rows: PropTypes.number.isRequired,
+	game_running: PropTypes.bool.isRequired
 };
 
 
@@ -121,7 +126,8 @@ function mapStateToProps(state) {
 		tiles: state.tiles,
 		num_value_tiles_left: state.game.num_value_tiles_left,
 		num_rows: state.game.num_rows,
-		num_cols: state.game.num_cols
+		num_cols: state.game.num_cols,
+		game_running: state.game.game_running
 	};
 }
 
