@@ -1,23 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as vars from '../vars';
+
+const selectedButtonClass = "btn-default";
 
 const PencilModeOptions = (props) => {
+	const getVoltorbButtonClassName = () => {
+		return `btn col-xs-3 ${props.pencil_mode === vars.VOLTORB? selectedButtonClass : 'btn-danger'}`;
+	};
+	const getNumberButtonClassName = (selected) => {
+		return `btn col-xs-2 ${selected? selectedButtonClass : 'btn-primary'}`;
+	};
+
 	return (
 		<div className="container">
 			<div className="row">
-				<button className="btn btn-danger col-xs-3" onClick={props.voltorbClick}>
+				<button className={getVoltorbButtonClassName()} onClick={props.voltorbClick}>
 					V
 				</button>
-				<button className="btn btn-primary col-xs-2" onClick={props.oneClick}>
+				<button className={getNumberButtonClassName(props.pencil_mode === vars.ONE)} onClick={props.oneClick}>
 					1
 				</button>
-				<button className="btn btn-primary col-xs-2" onClick={props.twoClick}>
+				<button className={getNumberButtonClassName(props.pencil_mode === vars.TWO)} onClick={props.twoClick}>
 					2
 				</button>
-				<button className="btn btn-primary col-xs-2" onClick={props.threeClick}>
+				<button className={getNumberButtonClassName(props.pencil_mode === vars.THREE)} onClick={props.threeClick}>
 					3
 				</button>
-				<button className="btn btn-primary col-xs-2" onClick={props.fourClick}>
+				<button className={getNumberButtonClassName(props.pencil_mode === vars.FOUR)} onClick={props.fourClick}>
 					4
 				</button>
 			</div>
@@ -30,7 +40,11 @@ PencilModeOptions.propTypes = {
 	oneClick: PropTypes.func.isRequired,
 	twoClick: PropTypes.func.isRequired,
 	threeClick: PropTypes.func.isRequired,
-	fourClick: PropTypes.func.isRequired
+	fourClick: PropTypes.func.isRequired,
+	pencil_mode: PropTypes.oneOfType([
+		PropTypes.bool,
+		PropTypes.string
+	]).isRequired
 };
 
 PencilModeOptions.defaultProps = {};

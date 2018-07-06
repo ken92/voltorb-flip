@@ -35,6 +35,7 @@ class PencilModeOptions extends Component {
 				twoClick={this.twoClick}
 				threeClick={this.threeClick}
 				fourClick={this.fourClick}
+				pencil_mode={this.props.pencil_mode}
 			/>
 		);
 	}
@@ -48,7 +49,9 @@ PencilModeOptions.defaultProps = {};
 
 
 function mapStateToProps(state) {
-	return {};
+	return {
+		pencil_mode: state.game.pencil_mode
+	};
 }
 
 export default connect(mapStateToProps, actions)(PencilModeOptions);
