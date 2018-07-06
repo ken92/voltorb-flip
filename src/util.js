@@ -1,6 +1,27 @@
 import Tile from './Tile';
 import * as vars from './vars';
 
+export const getPencilModeFromKey = (key) => {
+	switch (key) {
+		case 'v':
+			return vars.VOLTORB;
+		case '1':
+			return vars.ONE;
+		case '2':
+			return vars.TWO;
+		case '3':
+			return vars.THREE;
+		case '4':
+			return vars.FOUR;
+		case 'p':
+			return vars.TOGGLE_PENCIL_MODE;
+
+		default:
+			return null;
+	}
+};
+
+
 export const getRandomInt = (min, max) => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
