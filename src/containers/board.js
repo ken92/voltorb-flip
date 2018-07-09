@@ -21,9 +21,10 @@ class Board extends Component {
 		const tile = this.props.tiles[key];
 		console.log("clicked tile: ",tile);
 		if (tile.contents === vars.VOLTORB) {
-			// TODO game over
 			console.log("lose!");
 			this.props.stopGame();
+			this.props.showGameOverScreen();
+			this.props.flipAllTiles();
 		} else if (tile.contents > 1) {
 			const valueTilesLeft = this.props.num_value_tiles_left - 1;
 			this.props.setNumValueTilesLeft(valueTilesLeft);
@@ -46,7 +47,7 @@ class Board extends Component {
 			/>
 		);
 	}
-	generateHeaderTile = (value, key = '') => {
+	generateHeaderTile = (value = '', key = '') => {
 		return (
 			<Tile key={key}
 				header={true}
@@ -113,6 +114,8 @@ Board.propTypes = {
 	tiles: PropTypes.object,
 	stopGame: PropTypes.func.isRequired,
 	flipTile: PropTypes.func.isRequired,
+	flipAllTiles: PropTypes.func.isRequired,
+	showGameOverScreen: PropTypes.func.isRequired,
 	num_value_tiles_left: PropTypes.number.isRequired,
 	num_cols: PropTypes.number.isRequired,
 	num_rows: PropTypes.number.isRequired,

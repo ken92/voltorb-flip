@@ -3,19 +3,12 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import StartPageDisplay from '../components/startPage';
 import actions from '../reducers/actions';
-import {createNewTilesBoard} from '../util';
+import createNewBoardHoc from '../hocs/createNewBoardHoc';
 
 class StartPage extends Component {
 	startGame = async () => {
-		const {tiles, headers, numValueTiles} = await createNewTilesBoard(this.props.num_rows, this.props.num_cols, this.props.difficulty_setting);
-		this.props.setTiles(tiles);
-		this.props.setHeaders(headers);
-		this.props.setNumValueTilesLeft(numValueTiles);
 		this.props.hideStartScreen();
-		this.props.startGame();
-		console.log(tiles);
-		console.log(headers);
-		console.log(numValueTiles);
+		this.props.createNewBoard();
 	}
 
 	render() {
@@ -48,24 +41,18 @@ class StartPage extends Component {
 }
 
 StartPage.propTypes = {
-	difficulty_setting: PropTypes.string.isRequired,
-	num_rows: PropTypes.number.isRequired,
-	num_cols: PropTypes.number.isRequired,
-
-	setHeaders: PropTypes.func.isRequired,
-	setTiles: PropTypes.func.isRequired,
-	setNumValueTilesLeft: PropTypes.func.isRequired,
-	startGame: PropTypes.func.isRequired,
-	hideStartScreen: PropTypes.func.isRequired,
+	updateNumCols: PropTypes.func.isRequired,
+	updateNumRows: PropTypes.func.isRequired,
+	createNewBoard: PropTypes.func.isRequired,
+	hideStartScreen: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
 	return {
-		difficulty_setting: state.game.difficulty_setting,
 		num_rows: state.game.num_rows,
 		num_cols: state.game.num_cols
 	};
 }
 
-export default connect(mapStateToProps, actions)(StartPage);
+export default connect(mapStateToProps, actions)(createNewBoardHoc(StartPage));
 
