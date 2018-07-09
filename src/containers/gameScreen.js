@@ -27,6 +27,7 @@ class GameScreen extends Component {
 
 	giveUp = () => {
 		this.props.flipAllTiles();
+		this.props.showGameOverScreen();
 	}
 
 	pencilModeToggle = () => {
@@ -77,6 +78,7 @@ GameScreen.propTypes = {
 	flipAllTiles: PropTypes.func.isRequired,
 	hideGameWinScreen: PropTypes.func.isRequired,
 	hideGameOverScreen: PropTypes.func.isRequired,
+	showGameOverScreen: PropTypes.func.isRequired,
 	showStartScreen: PropTypes.func.isRequired,
 	startGame: PropTypes.func.isRequired,
 	createNewBoard: PropTypes.func.isRequired,
