@@ -14,29 +14,47 @@ class Board extends Component {
 		);
 	}
 
+	pencilModeToPencilFunc = () => {
+		switch (this.props.pencil_mode) {
+			case vars.ONE:
+				return this.props.toggleTilePencilOne;
+			case vars.TWO:
+				return this.props.toggleTilePencilTwo;
+			case vars.THREE:
+				return this.props.toggleTilePencilThree;
+			case vars.VOLTORB:
+				return this.props.toggleTilePencilVoltorb;
+		}
+	}
 	onTileClick = key => {
-		this.props.flipTile(key);
+		if (this.props.pencil_mode) {
+			this.pencilModeToPencilFunc()(key);
+		}
 
-		// do something according to tile contents
-		const tile = this.props.tiles[key];
-		console.log("clicked tile: ",tile);
-		if (tile.contents === vars.VOLTORB) {
-			console.log("lose!");
-			this.props.flipAllTiles();
-			this.props.stopGame();
-			this.props.showGameOverScreen();
-			this.props.setLevel(1);
-		} else if (tile.contents > 1) {
-			const valueTilesLeft = this.props.num_value_tiles_left - 1;
-			this.props.setNumValueTilesLeft(valueTilesLeft);
+		else {
+			this.props.flipTile(key);
 
-			if (valueTilesLeft === 0) {
-				// TODO level win
-				console.log("win!");
+			// do something according to tile contents
+			const tile = this.props.tiles[key];
+			console.log("clicked tile: ",tile);
+			if (tile.contents === vars.VOLTORB) {
+				console.log("lose!");
 				this.props.flipAllTiles();
 				this.props.stopGame();
-				this.props.showGameWinScreen();
-				this.props.setLevel(this.props.level + 1);
+				this.props.showGameOverScreen();
+				this.props.setLevel(1);
+			} else if (tile.contents > 1) {
+				const valueTilesLeft = this.props.num_value_tiles_left - 1;
+				this.props.setNumValueTilesLeft(valueTilesLeft);
+
+				if (valueTilesLeft === 0) {
+					// TODO level win
+					console.log("win!");
+					this.props.flipAllTiles();
+					this.props.stopGame();
+					this.props.showGameWinScreen();
+					this.props.setLevel(this.props.level + 1);
+				}
 			}
 		}
 	}
@@ -46,8 +64,7 @@ class Board extends Component {
 		return (
 			<Tile key={tile.id}
 				onClick={clickFunc}
-				flipped={tile.flipped}
-				contents={tile.contents}
+				{...tile}
 			/>
 		);
 	}
@@ -123,11 +140,20 @@ Board.propTypes = {
 	showGameOverScreen: PropTypes.func.isRequired,
 	showGameWinScreen: PropTypes.func.isRequired,
 	setLevel: PropTypes.func.isRequired,
-	
+
+	toggleTilePencilOne: PropTypes.func.isRequired,
+	toggleTilePencilTwo: PropTypes.func.isRequired,
+	toggleTilePencilThree: PropTypes.func.isRequired,
+	toggleTilePencilVoltorb: PropTypes.func.isRequired,
+
 	tiles: PropTypes.object,
 	num_value_tiles_left: PropTypes.number.isRequired,
 	num_cols: PropTypes.number.isRequired,
 	num_rows: PropTypes.number.isRequired,
+	pencil_mode: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.bool
+	]).isRequired,
 	level: PropTypes.number.isRequired,
 	game_running: PropTypes.bool.isRequired
 };
@@ -141,6 +167,7 @@ function mapStateToProps(state) {
 		num_value_tiles_left: state.game.num_value_tiles_left,
 		num_rows: state.game.num_rows,
 		num_cols: state.game.num_cols,
+		pencil_mode: state.game.pencil_mode,
 		game_running: state.game.game_running
 	};
 }

@@ -23,9 +23,6 @@ class PencilModeOptions extends Component {
 	threeClick = () => {
 		this.props.pencilModeOn(vars.THREE);
 	}
-	fourClick = () => {
-		this.props.pencilModeOn(vars.FOUR);
-	}
 
 	render() {
 		return (
@@ -34,7 +31,6 @@ class PencilModeOptions extends Component {
 				oneClick={this.oneClick}
 				twoClick={this.twoClick}
 				threeClick={this.threeClick}
-				fourClick={this.fourClick}
 				pencil_mode={this.props.pencil_mode}
 			/>
 		);

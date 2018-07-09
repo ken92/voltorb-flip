@@ -11,6 +11,7 @@ body {
 }
 
 .tile {
+  min-height: 5px;
   padding: 5px;
   margin: 5px;
   height: 80px;
@@ -28,5 +29,20 @@ body {
 }
 
 .tile.voltorb {
-  background-image: url('./img/voltorb2Resize.png');
+  background-image: url('../img/voltorb2Resize.png');
+}
+
+.tile .tileRow {
+  min-height: 30%;
+}
+.tileCol {
+  min-width: 1px;
+  min-height: 1px;
+  padding: 0px;
+}
+.tileCol.right {
+  float: right;
+}
+.tileCol.left {
+  float: left;
 }

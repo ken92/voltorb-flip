@@ -27,9 +27,6 @@ const PencilModeOptions = (props) => {
 				<button className={getNumberButtonClassName(props.pencil_mode === vars.THREE)} onClick={props.threeClick}>
 					3
 				</button>
-				<button className={getNumberButtonClassName(props.pencil_mode === vars.FOUR)} onClick={props.fourClick}>
-					4
-				</button>
 			</div>
 		</div>
 	);
@@ -40,7 +37,6 @@ PencilModeOptions.propTypes = {
 	oneClick: PropTypes.func.isRequired,
 	twoClick: PropTypes.func.isRequired,
 	threeClick: PropTypes.func.isRequired,
-	fourClick: PropTypes.func.isRequired,
 	pencil_mode: PropTypes.oneOfType([
 		PropTypes.bool,
 		PropTypes.string

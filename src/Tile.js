@@ -11,7 +11,6 @@ const Tile = function({x, y, contents, id}) {
 	this.pencilOne = false;
 	this.pencilTwo = false;
 	this.pencilThree = false;
-	this.pencilFour = false;
 
 
 	this.toString = () => {

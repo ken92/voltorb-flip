@@ -4,8 +4,8 @@ export const VOLTORB_IMG_URL = '../img/voltorb.png';
 
 // #### minimum numbers ####
 export const MINIMUM_VOLTORBS = 3;
-export const MINIMUM_FOURS = 1;
 export const MINIMUM_THREES = 2;
+export const MINIMUM_TWOS = 1;
 
 
 // #### difficulty settings ####
@@ -31,11 +31,11 @@ export const HARD_SETTINGS = {
 
 
 // #### number percentages ####
-export const FOUR_PERCENTAGE = {
+export const THREE_PERCENTAGE = {
 	min_percentage: 9,
 	max_percentage: 12
 };
-export const THREE_PERCENTAGE = {
+export const TWO_PERCENTAGE = {
 	min_percentage: 30,
 	max_percentage: 37
 };
@@ -46,5 +46,4 @@ export const THREE_PERCENTAGE = {
 export const ONE = 'ONE';
 export const TWO = 'TWO';
 export const THREE = 'THREE';
-export const FOUR = 'FOUR';
 export const TOGGLE_PENCIL_MODE = 'TOGGLE_PENCIL_MODE';

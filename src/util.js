@@ -11,8 +11,6 @@ export const getPencilModeFromKey = (key) => {
 			return vars.TWO;
 		case '3':
 			return vars.THREE;
-		case '4':
-			return vars.FOUR;
 		case 'p':
 			return vars.TOGGLE_PENCIL_MODE;
 
@@ -60,12 +58,11 @@ export const getNumVoltorbs = (totalNumTiles, difficulty_setting) => {
 	return Math.max(getNumFromPercentageRange(totalNumTiles, getDifficultyConfigurationFromMode(difficulty_setting)), vars.MINIMUM_VOLTORBS);
 };
 
-export const getNumFours = (numFreeTiles) => {
-	return Math.max(getNumFromPercentageRange(numFreeTiles, vars.FOUR_PERCENTAGE), vars.MINIMUM_FOURS);
-};
-
 export const getNumThrees = (numFreeTiles) => {
 	return Math.max(getNumFromPercentageRange(numFreeTiles, vars.THREE_PERCENTAGE), vars.MINIMUM_THREES);
+};
+export const getNumTwos = (numFreeTiles) => {
+	return Math.max(getNumFromPercentageRange(numFreeTiles, vars.TWO_PERCENTAGE), vars.MINIMUM_TWOS);
 };
 
 
@@ -87,8 +84,8 @@ export const getNewTileContentsArray = (rows, columns, difficulty_setting) => {
 		const tileContentsArray = Array(totalNumTiles).fill(1);
 
 		const numVoltorbs = getNumVoltorbs(totalNumTiles, difficulty_setting);
-		const numFours = getNumFours(totalNumTiles - numVoltorbs);
-		const numThrees = getNumThrees(totalNumTiles - numVoltorbs - numFours);
+		const numThrees = getNumThrees(totalNumTiles - numVoltorbs);
+		const numTwos = getNumTwos(totalNumTiles - numVoltorbs - numThrees);
 
 		const freeTiles = [];
 		for (let i = 0; i < totalNumTiles; i++) {
@@ -97,8 +94,8 @@ export const getNewTileContentsArray = (rows, columns, difficulty_setting) => {
 
 		// place content in array
 		await placeContentInArray(vars.VOLTORB, tileContentsArray, numVoltorbs, freeTiles);
-		await placeContentInArray(4, tileContentsArray, numFours, freeTiles);
 		await placeContentInArray(3, tileContentsArray, numThrees, freeTiles);
+		await placeContentInArray(2, tileContentsArray, numTwos, freeTiles);
 		resolve(tileContentsArray);
 	});
 };
