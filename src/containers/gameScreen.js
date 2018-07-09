@@ -47,6 +47,7 @@ class GameScreen extends Component {
 				giveUp={this.giveUp}
 				pencilModeToggle={this.pencilModeToggle}
 				pencil_mode={this.props.pencil_mode}
+				level={this.props.level}
 			>
 				<Board />
 			</GameScreenDisplay>
@@ -63,6 +64,7 @@ GameScreen.propTypes = {
 	startGame: PropTypes.func.isRequired,
 	createNewBoard: PropTypes.func.isRequired,
 
+	level: PropTypes.number.isRequired,
 	game_running: PropTypes.bool.isRequired,
 	show_game_over_screen: PropTypes.bool.isRequired,
 	pencil_mode: PropTypes.bool.isRequired
@@ -77,6 +79,7 @@ GameScreen.defaultProps = {
 
 function mapStateToProps(state) {
 	return {
+		level: state.game.level,
 		show_game_over_screen: state.game.show_game_over_screen,
 		game_running: state.game.game_running,
 		pencil_mode: !!(state.game.pencil_mode)

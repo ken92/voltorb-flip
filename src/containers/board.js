@@ -25,6 +25,7 @@ class Board extends Component {
 			this.props.stopGame();
 			this.props.showGameOverScreen();
 			this.props.flipAllTiles();
+			this.props.setLevel(1);
 		} else if (tile.contents > 1) {
 			const valueTilesLeft = this.props.num_value_tiles_left - 1;
 			this.props.setNumValueTilesLeft(valueTilesLeft);
@@ -32,6 +33,7 @@ class Board extends Component {
 			if (valueTilesLeft === 0) {
 				// TODO level win
 				console.log("win!");
+				this.props.setLevel(this.props.level + 1);
 				this.props.stopGame();
 			}
 		}
@@ -111,14 +113,17 @@ class Board extends Component {
 }
 
 Board.propTypes = {
-	tiles: PropTypes.object,
 	stopGame: PropTypes.func.isRequired,
 	flipTile: PropTypes.func.isRequired,
 	flipAllTiles: PropTypes.func.isRequired,
 	showGameOverScreen: PropTypes.func.isRequired,
+	setLevel: PropTypes.func.isRequired,
+	
+	tiles: PropTypes.object,
 	num_value_tiles_left: PropTypes.number.isRequired,
 	num_cols: PropTypes.number.isRequired,
 	num_rows: PropTypes.number.isRequired,
+	level: PropTypes.number.isRequired,
 	game_running: PropTypes.bool.isRequired
 };
 
@@ -127,6 +132,7 @@ function mapStateToProps(state) {
 	return {
 		headers: state.board_headers,
 		tiles: state.tiles,
+		level: state.game.level,
 		num_value_tiles_left: state.game.num_value_tiles_left,
 		num_rows: state.game.num_rows,
 		num_cols: state.game.num_cols,

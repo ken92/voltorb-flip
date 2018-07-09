@@ -12,7 +12,7 @@ const GameScreen = (props) => {
 
 	return (
 		<div className="container">
-			<h2>Level [TODO]</h2>
+			<h2>Level {props.level}</h2>
 			{props.children}
 			{pencilModeButton}
 			{giveUpButton}
@@ -22,10 +22,12 @@ const GameScreen = (props) => {
 }
 
 GameScreen.propTypes = {
-	children: PropTypes.any.isRequired,
-	pencil_mode: PropTypes.bool.isRequired,
 	pencilModeToggle: PropTypes.func.isRequired,
-	giveUp: PropTypes.func.isRequired
+	giveUp: PropTypes.func.isRequired,
+
+	level: PropTypes.number.isRequired,
+	children: PropTypes.any.isRequired,
+	pencil_mode: PropTypes.bool.isRequired
 };
 
 GameScreen.defaultProps = {};
