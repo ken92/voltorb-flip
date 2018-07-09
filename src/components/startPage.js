@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const StartPage = (props) => {
 	return (
-		<div className="container">
+		<div className="container innerContainer">
 			<h2>Voltorb Flip</h2>
 			<h4>It's like Minesweeper, but different</h4>
 
@@ -22,7 +22,7 @@ const StartPage = (props) => {
 				</div>
 			</div>
 			<div className="row">
-				<button className="btn btn-primary col-xs-12" onClick={props.startButtonClick}>Start!</button>
+				<button className="btn btn-primary col-xs-12" style={{marginTop: '10px'}} onClick={props.startButtonClick}>Start!</button>
 			</div>
 		</div>
 	);

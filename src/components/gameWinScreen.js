@@ -7,7 +7,7 @@ const GameWinScreen = (props) => {
 	);
 
 	return (
-		<div className="container">
+		<div className="container innerContainer">
 			<h2>Great job!</h2>
 			{props.children}
 			{nextLevelButton}

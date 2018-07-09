@@ -10,7 +10,7 @@ const GameOverScreen = (props) => {
 	);
 
 	return (
-		<div className="container">
+		<div className="container innerContainer">
 			<h2>Game Over!</h2>
 			{props.children}
 			{playAgainButton}

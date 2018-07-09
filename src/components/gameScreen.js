@@ -11,7 +11,7 @@ const GameScreen = (props) => {
 	);
 
 	return (
-		<div className="container">
+		<div className="container innerContainer">
 			<h2>Level {props.level}</h2>
 			{props.children}
 			{pencilModeButton}

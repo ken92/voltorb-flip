@@ -25,7 +25,12 @@ class App extends Component {
   }
 
   render() {
-    return this.props.show_start_screen? <StartPage /> : <GameScreen />;
+    const contents = this.props.show_start_screen? <StartPage /> : <GameScreen />;
+    return (
+      <div className="outerContainer">
+        {contents}
+      </div>
+    );
   }
 }
 
