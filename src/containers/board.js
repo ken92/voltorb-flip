@@ -28,45 +28,55 @@ class Board extends Component {
 		}
 	}
 	onTileClick = key => {
-		if (this.props.pencil_mode) {
-			this.pencilModeToPencilFunc()(key);
-		}
+		return new Promise((resolve, reject) => {
+			if (this.props.pencil_mode) {
+				this.pencilModeToPencilFunc()(key);
+				resolve('');
+			}
 
-		else {
-			this.props.flipTile(key);
+			else {
+				this.props.flipTile(key);
 
-			// do something according to tile contents
-			const tile = this.props.tiles[key];
-			console.log("clicked tile: ",tile);
-			if (tile.contents === vars.VOLTORB) {
-				console.log("lose!");
-				this.props.flipAllTiles();
-				this.props.stopGame();
-				this.props.showGameOverScreen();
-				this.props.setLevel(1);
-			} else if (tile.contents > 1) {
-				const valueTilesLeft = this.props.num_value_tiles_left - 1;
-				this.props.setNumValueTilesLeft(valueTilesLeft);
-
-				if (valueTilesLeft === 0) {
-					// TODO level win
-					console.log("win!");
+				// do something according to tile contents
+				const tile = this.props.tiles[key];
+				console.log("clicked tile: ",tile);
+				if (tile.contents === vars.VOLTORB) {
+					console.log("lose!");
 					this.props.flipAllTiles();
 					this.props.stopGame();
-					this.props.showGameWinScreen();
-					this.props.setLevel(this.props.level + 1);
+					this.props.showGameOverScreen();
+					this.props.setLevel(1);
+					resolve('lose');
+				} else if (tile.contents > 1) {
+					const valueTilesLeft = this.props.num_value_tiles_left - 1;
+					this.props.setNumValueTilesLeft(valueTilesLeft);
+
+					if (valueTilesLeft === 0) {
+						// TODO level win
+						console.log("win!");
+						this.props.flipAllTiles();
+						this.props.stopGame();
+						this.props.showGameWinScreen();
+						this.props.setLevel(this.props.level + 1);
+						resolve('win');
+					} else
+						resolve('');
+				} else {
+					resolve('');
 				}
 			}
-		}
+		});
 	}
-	onHeaderClick = key => {
+	onHeaderClick = async key => {
 		const [num, xOrY] = key.split('');
 		let filterFunction = util.keyIsInCol;
 		if (xOrY === 'y')
 			filterFunction = util.keyIsInRow;
 		const keys = Object.keys(this.props.tiles).filter(filterFunction.bind(null, num));
 		for (let i = 0; i < keys.length; i++) {
-			this.onTileClick(keys[i]);
+			const tileClickResult = await this.onTileClick(keys[i]);
+			if (tileClickResult === 'lose' || tileClickResult === 'win')
+				break;
 		}
 	}
 
