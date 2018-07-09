@@ -12,11 +12,14 @@ class StartPage extends Component {
 		this.props.createNewBoard();
 	}
 
-	getNewRowOrCol = e => {
-		var newNum = parseInt(e.target.value, 10);
-		if (!newNum)
+	fixRowColValues = (num) => {
+		if (!num)
 			return vars.MIN_ROW_OR_COL;
-		return Math.min(vars.MAX_ROW_OR_COL, Math.max(newNum, vars.MIN_ROW_OR_COL));
+		return Math.min(vars.MAX_ROW_OR_COL, Math.max(num, vars.MIN_ROW_OR_COL));
+	}
+
+	getNewRowOrCol = e => {
+		return parseInt(e.target.value, 10) || 0;
 	}
 	onRowChange = e => {
 		this.props.updateNumRows(this.getNewRowOrCol(e));
@@ -28,19 +31,21 @@ class StartPage extends Component {
 	render() {
 		const rowsInput = (
 			<input
-				min={3}
-				max={20}
+				min={vars.MIN_ROW_OR_COL}
+				max={vars.MAX_ROW_OR_COL}
 				onChange={this.onRowChange}
 				value={this.props.num_rows}
+				onBlur={() => {this.props.updateNumRows(this.fixRowColValues(this.props.num_rows))}}
 			/>
 		);
 
 		const colsInput = (
 			<input
-				min={3}
-				max={20}
+				min={vars.MIN_ROW_OR_COL}
+				max={vars.MAX_ROW_OR_COL}
 				onChange={this.onColChange}
 				value={this.props.num_cols}
+				onBlur={() => {this.props.updateNumCols(this.fixRowColValues(this.props.num_cols))}}
 			/>
 		);
 
