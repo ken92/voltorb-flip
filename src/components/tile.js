@@ -74,7 +74,7 @@ const Tile = props => {
 	const contents = getStyledTileContents(props);
 	const className = `${props.className || ''} tile vcenter ${getClassName(props)}`;
 	return (
-		<div style={props.style} className={className} onClick={props.flipped || !props.onClick? null : props.onClick}>
+		<div style={props.style} className={className} onDoubleClick={props.onDoubleClick || null} onClick={props.flipped || !props.onClick? null : props.onClick}>
 			{contents}
 		</div>
 	);
@@ -86,6 +86,7 @@ Tile.propTypes = {
 	header: PropTypes.bool.isRequired,
 	flipped: PropTypes.bool.isRequired,
 	onClick: PropTypes.func,
+	onDoubleClick: PropTypes.func,
 	contents: PropTypes.oneOfType([
 		PropTypes.string,
 		PropTypes.number

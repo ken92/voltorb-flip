@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import actions from '../reducers/actions';
 import * as vars from '../vars';
+import * as util from '../util';
 import Tile from '../components/tile';
 
 class Board extends Component {
@@ -58,6 +59,16 @@ class Board extends Component {
 			}
 		}
 	}
+	onHeaderClick = key => {
+		const [num, xOrY] = key.split('');
+		let filterFunction = util.keyIsInCol;
+		if (xOrY === 'y')
+			filterFunction = util.keyIsInRow;
+		const keys = Object.keys(this.props.tiles).filter(filterFunction.bind(null, num));
+		for (let i = 0; i < keys.length; i++) {
+			this.onTileClick(keys[i]);
+		}
+	}
 
 	generateTile = tile => {
 		const clickFunc = this.props.game_running? () => {this.onTileClick(`${tile.x}.${tile.y}`)} : null;
@@ -71,7 +82,8 @@ class Board extends Component {
 	generateHeaderTile = (headerTile = {}, key = '') => {
 		// TODO add numVoltorbs
 		return (
-			<Tile key={key}
+			<Tile key={headerTile.key || key}
+				onDoubleClick={() => {this.onHeaderClick(headerTile.key)}}
 				header={true}
 				numVoltorbs={headerTile.numVoltorbs || 0}
 				contents={headerTile.value || 0}
@@ -147,9 +159,8 @@ Board.propTypes = {
 	toggleTilePencilVoltorb: PropTypes.func.isRequired,
 
 	tiles: PropTypes.object,
-	num_value_tiles_left: PropTypes.number.isRequired,
 	num_cols: PropTypes.number.isRequired,
-	num_rows: PropTypes.number.isRequired,
+	num_value_tiles_left: PropTypes.number.isRequired,
 	pencil_mode: PropTypes.oneOfType([
 		PropTypes.string,
 		PropTypes.bool
@@ -165,7 +176,6 @@ function mapStateToProps(state) {
 		tiles: state.tiles,
 		level: state.game.level,
 		num_value_tiles_left: state.game.num_value_tiles_left,
-		num_rows: state.game.num_rows,
 		num_cols: state.game.num_cols,
 		pencil_mode: state.game.pencil_mode,
 		game_running: state.game.game_running

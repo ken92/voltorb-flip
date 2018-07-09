@@ -49,6 +49,15 @@ export const getColumnFromTileId = (id, columns) => {
 };
 
 
+// #### key array filters ####
+export const keyIsInRow = (targetRow, key) => {
+	return key.indexOf(`.${targetRow}`) !== -1;
+};
+export const keyIsInCol = (targetCol, key) => {
+	return key.indexOf(`${targetCol}.`) !== -1;
+};
+
+
 // #### how many things to put in the board ####
 export const getNumFromPercentageRange = (total, {min_percentage, max_percentage}) => {
 	const percentage = getRandomInt(min_percentage, max_percentage);
@@ -107,32 +116,36 @@ export const createNewTilesBoard = async (rows, columns, difficulty_setting) => 
 	let currentTileId = 1;
 	let numValueTiles = 0;
 	for (let y = 0; y < rows; y++) {
-		newHeaders[`${y}yh`] = {value: 0, numVoltorbs: 0};
+		const yHeaderKey = `${y}yh`;
+		newHeaders[yHeaderKey] = {value: 0, numVoltorbs: 0, key: yHeaderKey};
 		for (let x = 0; x < columns; x++) {
 			const constX = x;
 			const constY = y;
+			const xHeaderKey = `${constX}xh`;
 
-			if (!newHeaders[`${constX}xh`])
-				newHeaders[`${constX}xh`] = {value: 0, numVoltorbs: 0};
+			if (!newHeaders[xHeaderKey])
+				newHeaders[xHeaderKey] = {value: 0, numVoltorbs: 0, key: xHeaderKey};
 
 			const contents = contentArray[currentTileId - 1];
 			if (contents !== vars.VOLTORB) {
-				newHeaders[`${constX}xh`].value += contents;
-				newHeaders[`${constY}yh`].value += contents;
+				newHeaders[xHeaderKey].value += contents;
+				newHeaders[yHeaderKey].value += contents;
 				if (contents > 1)
 					numValueTiles++;
 			} else {
-				newHeaders[`${constX}xh`].numVoltorbs += 1;
-				newHeaders[`${constY}yh`].numVoltorbs += 1;
+				newHeaders[xHeaderKey].numVoltorbs += 1;
+				newHeaders[yHeaderKey].numVoltorbs += 1;
 			}
 			const id = currentTileId;
+			const key = `${constX}.${constY}`;
 			const t = new Tile({
 				id,
 				y: constY,
 				x: constX,
-				contents
+				contents,
+				key
 			});
-			newTiles[`${constX}.${constY}`] = t;
+			newTiles[key] = t;
 			currentTileId++;
 		}
 	}

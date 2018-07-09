@@ -1,4 +1,5 @@
-const Tile = function({x, y, contents, id}) {
+const Tile = function({x, y, contents, id, key}) {
+	this.key = key;
 	this.id = id;
 	this.x = x;
 	this.y = y;
