@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import StartPageDisplay from '../components/startPage';
 import actions from '../reducers/actions';
 import createNewBoardHoc from '../hocs/createNewBoardHoc';
+import * as vars from '../vars';
 
 class StartPage extends Component {
 	startGame = async () => {
@@ -11,12 +12,25 @@ class StartPage extends Component {
 		this.props.createNewBoard();
 	}
 
+	getNewRowOrCol = e => {
+		var newNum = parseInt(e.target.value, 10);
+		if (!newNum)
+			return vars.MIN_ROW_OR_COL;
+		return Math.min(vars.MAX_ROW_OR_COL, Math.max(newNum, vars.MIN_ROW_OR_COL));
+	}
+	onRowChange = e => {
+		this.props.updateNumRows(this.getNewRowOrCol(e));
+	}
+	onColChange = e => {
+		this.props.updateNumCols(this.getNewRowOrCol(e));
+	}
+
 	render() {
 		const rowsInput = (
 			<input
 				min={3}
 				max={20}
-				onChange={(e) => {this.props.updateNumRows(parseInt(e.target.value, 10))}}
+				onChange={this.onRowChange}
 				value={this.props.num_rows}
 			/>
 		);
@@ -25,7 +39,7 @@ class StartPage extends Component {
 			<input
 				min={3}
 				max={20}
-				onChange={(e) => {this.props.updateNumCols(parseInt(e.target.value, 10))}}
+				onChange={this.onColChange}
 				value={this.props.num_cols}
 			/>
 		);

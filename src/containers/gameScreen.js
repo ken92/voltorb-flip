@@ -28,6 +28,7 @@ class GameScreen extends Component {
 	giveUp = () => {
 		this.props.flipAllTiles();
 		this.props.showGameOverScreen();
+		this.props.stopGame();
 	}
 
 	pencilModeToggle = () => {

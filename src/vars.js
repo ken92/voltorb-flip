@@ -2,6 +2,10 @@ export const VOLTORB = 'VOLTORB';
 export const VOLTORB_IMG_URL = '../img/voltorb.png';
 
 
+// #### min/max row/col settings ####
+export const MIN_ROW_OR_COL = 1;
+export const MAX_ROW_OR_COL = 15;
+
 // #### minimum numbers ####
 export const MINIMUM_VOLTORBS = 3;
 export const MINIMUM_THREES = 2;
