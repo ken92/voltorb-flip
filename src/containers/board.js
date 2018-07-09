@@ -22,9 +22,9 @@ class Board extends Component {
 		console.log("clicked tile: ",tile);
 		if (tile.contents === vars.VOLTORB) {
 			console.log("lose!");
+			this.props.flipAllTiles();
 			this.props.stopGame();
 			this.props.showGameOverScreen();
-			this.props.flipAllTiles();
 			this.props.setLevel(1);
 		} else if (tile.contents > 1) {
 			const valueTilesLeft = this.props.num_value_tiles_left - 1;
@@ -33,8 +33,10 @@ class Board extends Component {
 			if (valueTilesLeft === 0) {
 				// TODO level win
 				console.log("win!");
-				this.props.setLevel(this.props.level + 1);
+				this.props.flipAllTiles();
 				this.props.stopGame();
+				this.props.showGameWinScreen();
+				this.props.setLevel(this.props.level + 1);
 			}
 		}
 	}
@@ -49,19 +51,21 @@ class Board extends Component {
 			/>
 		);
 	}
-	generateHeaderTile = (value = '', key = '') => {
+	generateHeaderTile = (headerTile = {}, key = '') => {
+		// TODO add numVoltorbs
 		return (
 			<Tile key={key}
 				header={true}
-				contents={value}
+				numVoltorbs={headerTile.numVoltorbs || 0}
+				contents={headerTile.value || 0}
 			/>
 		);
 	}
-	generateRow = (tempTileArr, rowNumber, headerValue) => {
+	generateRow = (tempTileArr, rowNumber, headerTile) => {
 		return (
 			<div key={rowNumber} className="row">
 				{tempTileArr.map(tile => {return this.generateTile(tile)})}
-				{this.generateHeaderTile(headerValue)}
+				{this.generateHeaderTile(headerTile)}
 			</div>
 		);
 	}
@@ -117,6 +121,7 @@ Board.propTypes = {
 	flipTile: PropTypes.func.isRequired,
 	flipAllTiles: PropTypes.func.isRequired,
 	showGameOverScreen: PropTypes.func.isRequired,
+	showGameWinScreen: PropTypes.func.isRequired,
 	setLevel: PropTypes.func.isRequired,
 	
 	tiles: PropTypes.object,

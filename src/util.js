@@ -110,20 +110,23 @@ export const createNewTilesBoard = async (rows, columns, difficulty_setting) => 
 	let currentTileId = 1;
 	let numValueTiles = 0;
 	for (let y = 0; y < rows; y++) {
-		newHeaders[`${y}yh`] = 0;
+		newHeaders[`${y}yh`] = {value: 0, numVoltorbs: 0};
 		for (let x = 0; x < columns; x++) {
 			const constX = x;
 			const constY = y;
 
 			if (!newHeaders[`${constX}xh`])
-				newHeaders[`${constX}xh`] = 0;
+				newHeaders[`${constX}xh`] = {value: 0, numVoltorbs: 0};
 
 			const contents = contentArray[currentTileId - 1];
 			if (contents !== vars.VOLTORB) {
-				newHeaders[`${constX}xh`] += contents;
-				newHeaders[`${constY}yh`] += contents;
+				newHeaders[`${constX}xh`].value += contents;
+				newHeaders[`${constY}yh`].value += contents;
 				if (contents > 1)
 					numValueTiles++;
+			} else {
+				newHeaders[`${constX}xh`].numVoltorbs += 1;
+				newHeaders[`${constY}yh`].numVoltorbs += 1;
 			}
 			const id = currentTileId;
 			const t = new Tile({

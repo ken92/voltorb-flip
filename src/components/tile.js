@@ -9,6 +9,12 @@ const getContents = props => {
 	return contents;
 };
 
+const getNumVoltorbs = props => {
+	if (!props.header)
+		return null;
+	return `# V: ${props.numVoltorbs}`;
+};
+
 const getClassName = props => {
 	if (props.header)
 		return "header";
@@ -20,10 +26,12 @@ const getClassName = props => {
 
 const Tile = props => {
 	const contents = getContents(props);
+	const numVoltorbs = getNumVoltorbs(props);
 	const className = `${props.className} tile vcenter ${getClassName(props)}`;
 	return (
 		<div style={props.style} className={className} onClick={props.flipped || !props.onClick? null : props.onClick}>
-			{contents}
+			<p>{contents}</p>
+			<p>{numVoltorbs}</p>
 		</div>
 	);
 }

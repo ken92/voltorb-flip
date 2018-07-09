@@ -4,13 +4,19 @@ import PropTypes from 'prop-types';
 import actions from '../reducers/actions';
 import GameScreenDisplay from '../components/gameScreen';
 import Board from './board';
+import GameWinScreen from '../components/gameWinScreen';
 import GameOverScreen from '../components/gameOverScreen';
 import * as vars from '../vars';
 import createNewBoardHoc from '../hocs/createNewBoardHoc';
 
 class GameScreen extends Component {
-	playAgain = async () => {
+	playAgain = () => {
 		this.props.hideGameOverScreen();
+		this.props.createNewBoard();
+	}
+
+	nextLevel = () => {
+		this.props.hideGameWinScreen();
 		this.props.createNewBoard();
 	}
 
@@ -42,6 +48,16 @@ class GameScreen extends Component {
 			);
 		}
 
+		else if (this.props.show_game_win_screen) {
+			return (
+				<GameWinScreen
+					nextLevel={this.nextLevel}
+				>
+					<Board />
+				</GameWinScreen>
+			);
+		}
+
 		return (
 			<GameScreenDisplay
 				giveUp={this.giveUp}
@@ -59,6 +75,7 @@ GameScreen.propTypes = {
 	pencilModeOn: PropTypes.func.isRequired,
 	pencilModeOff: PropTypes.func.isRequired,
 	flipAllTiles: PropTypes.func.isRequired,
+	hideGameWinScreen: PropTypes.func.isRequired,
 	hideGameOverScreen: PropTypes.func.isRequired,
 	showStartScreen: PropTypes.func.isRequired,
 	startGame: PropTypes.func.isRequired,
@@ -67,11 +84,13 @@ GameScreen.propTypes = {
 	level: PropTypes.number.isRequired,
 	game_running: PropTypes.bool.isRequired,
 	show_game_over_screen: PropTypes.bool.isRequired,
+	show_game_win_screen: PropTypes.bool.isRequired,
 	pencil_mode: PropTypes.bool.isRequired
 };
 
 GameScreen.defaultProps = {
 	show_game_over_screen: false,
+	show_game_win_screen: false,
 	game_running: false,
 	pencil_mode: false
 };
@@ -80,6 +99,7 @@ GameScreen.defaultProps = {
 function mapStateToProps(state) {
 	return {
 		level: state.game.level,
+		show_game_win_screen: state.game.show_game_win_screen,
 		show_game_over_screen: state.game.show_game_over_screen,
 		game_running: state.game.game_running,
 		pencil_mode: !!(state.game.pencil_mode)

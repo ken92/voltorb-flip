@@ -11,6 +11,11 @@ export const actions = {
 
 // header tile key structure: #xh; #yh
 // e.g., row 0's header would be 0yh, column 0's header would be 0xh
+
+// header tile value structure: {
+// 	value: #,
+// 	numVoltorbs: #
+// }
 const INITIAL_STATE = {};
 
 

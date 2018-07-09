@@ -4,6 +4,7 @@ import * as vars from '../vars';
 export const SET_SHOW_START_SCREEN = 'GAME_SET_SHOW_START_SCREEN';
 export const SET_GAME_RUNNING = 'GAME_SET_GAME_RUNNING';
 export const SET_SHOW_GAME_OVER_SCREEN = 'GAME_SET_SHOW_GAME_OVER_SCREEN';
+export const SET_SHOW_GAME_WIN_SCREEN = 'GAME_SET_SHOW_GAME_WIN_SCREEN';
 
 export const UPDATE_NUM_ROWS = 'GAME_UPDATE_NUM_ROWS';
 export const UPDATE_NUM_COLS = 'GAME_UPDATE_NUM_COLS';
@@ -21,6 +22,9 @@ export const hideStartScreen = () => ({type: SET_SHOW_START_SCREEN, payload: fal
 
 export const showGameOverScreen = () => ({type: SET_SHOW_GAME_OVER_SCREEN, payload: true});
 export const hideGameOverScreen = () => ({type: SET_SHOW_GAME_OVER_SCREEN, payload: false});
+
+export const showGameWinScreen = () => ({type: SET_SHOW_GAME_WIN_SCREEN, payload: true});
+export const hideGameWinScreen = () => ({type: SET_SHOW_GAME_WIN_SCREEN, payload: false});
 
 export const startGame = () => ({type: SET_GAME_RUNNING, payload: true});
 export const stopGame = () => ({type: SET_GAME_RUNNING, payload: false});
@@ -41,6 +45,9 @@ export const actions = {
 	showGameOverScreen,
 	hideGameOverScreen,
 
+	showGameWinScreen,
+	hideGameWinScreen,
+
 	startGame,
 	stopGame,
 
@@ -59,6 +66,7 @@ export const actions = {
 const INITIAL_STATE = {
 	show_start_screen: true,
 	show_game_over_screen: false,
+	show_game_win_screen: false,
 
 	game_running: false,
 	difficulty_setting: vars.EASY_MODE,
@@ -80,6 +88,9 @@ export default function(state = INITIAL_STATE, action) {
 
 		case SET_SHOW_GAME_OVER_SCREEN:
 			return {...state, show_game_over_screen: action.payload};
+
+		case SET_SHOW_GAME_WIN_SCREEN:
+			return {...state, show_game_win_screen: action.payload};
 
 		case SET_GAME_RUNNING:
 			return {...state, game_running: action.payload, game_over: false};
