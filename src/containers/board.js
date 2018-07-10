@@ -15,6 +15,30 @@ class Board extends Component {
 		);
 	}
 
+	loseGame = () => {
+		console.log("lose!");
+		this.props.flipAllTiles();
+		this.props.stopGame();
+		this.props.showGameOverScreen();
+		this.props.setLevel(1);
+	}
+	winGame = () => {
+		console.log("win!");
+		this.props.flipAllTiles();
+		this.props.stopGame();
+		this.props.showGameWinScreen();
+		this.props.setLevel(this.props.level + 1);
+	}
+
+	checkForWinState = numValueTilesFound => {
+		const valueTilesLeft = this.props.num_value_tiles_left - numValueTilesFound;
+		this.props.setNumValueTilesLeft(valueTilesLeft);
+
+		if (valueTilesLeft === 0) {
+			this.winGame();
+		}
+	}
+
 	pencilModeToPencilFunc = () => {
 		switch (this.props.pencil_mode) {
 			case vars.ONE:
@@ -28,44 +52,22 @@ class Board extends Component {
 		}
 	}
 	onTileClick = key => {
-		return new Promise((resolve, reject) => {
-			if (this.props.pencil_mode) {
-				this.pencilModeToPencilFunc()(key);
-				resolve('');
+		if (this.props.pencil_mode) {
+			this.pencilModeToPencilFunc()(key);
+		}
+
+		else {
+			this.props.flipTile(key);
+
+			// do something according to tile contents
+			const tile = this.props.tiles[key];
+			console.log("clicked tile: ",tile);
+			if (tile.contents === vars.VOLTORB) {
+				this.loseGame();
+			} else if (tile.contents > 1) {
+				this.checkForWinState(1);
 			}
-
-			else {
-				this.props.flipTile(key);
-
-				// do something according to tile contents
-				const tile = this.props.tiles[key];
-				console.log("clicked tile: ",tile);
-				if (tile.contents === vars.VOLTORB) {
-					console.log("lose!");
-					this.props.flipAllTiles();
-					this.props.stopGame();
-					this.props.showGameOverScreen();
-					this.props.setLevel(1);
-					resolve('lose');
-				} else if (tile.contents > 1) {
-					const valueTilesLeft = this.props.num_value_tiles_left - 1;
-					this.props.setNumValueTilesLeft(valueTilesLeft);
-
-					if (valueTilesLeft === 0) {
-						// TODO level win
-						console.log("win!");
-						this.props.flipAllTiles();
-						this.props.stopGame();
-						this.props.showGameWinScreen();
-						this.props.setLevel(this.props.level + 1);
-						resolve('win');
-					} else
-						resolve('');
-				} else {
-					resolve('');
-				}
-			}
-		});
+		}
 	}
 	onHeaderClick = async key => {
 		const [num, xOrY] = key.split('');
@@ -73,10 +75,34 @@ class Board extends Component {
 		if (xOrY === 'y')
 			filterFunction = util.keyIsInRow;
 		const keys = Object.keys(this.props.tiles).filter(filterFunction.bind(null, num));
-		for (let i = 0; i < keys.length; i++) {
-			const tileClickResult = await this.onTileClick(keys[i]);
-			if (tileClickResult === 'lose' || tileClickResult === 'win')
-				break;
+
+		if (this.props.pencil_mode) {
+			const pencilModeFunc = this.pencilModeToPencilFunc();
+			for (let i = 0; i < keys.length; i++) {
+				const key = keys[i];
+				pencilModeFunc(key, true);
+			}
+		}
+
+		else {
+			let valueTilesFound = 0;
+			let lostGame = false;
+			for (let i = 0; i < keys.length; i++) {
+				const key = keys[i];
+				const tile = this.props.tiles[key];
+				this.props.flipTile(key);
+				if (tile.contents === vars.VOLTORB) {
+					this.loseGame();
+					lostGame = true;
+					break;
+				} else if (tile.contents > 1) {
+					valueTilesFound++;
+				}
+
+				// this.onTileClick(keys[i]);
+			}
+			if (!lostGame)
+				this.checkForWinState(valueTilesFound);
 		}
 	}
 
@@ -93,7 +119,7 @@ class Board extends Component {
 		// TODO add numVoltorbs
 		return (
 			<Tile key={headerTile.key || key}
-				onDoubleClick={() => {this.onHeaderClick(headerTile.key)}}
+				onClick={() => {this.onHeaderClick(headerTile.key)}}
 				header={true}
 				numVoltorbs={headerTile.numVoltorbs || 0}
 				contents={headerTile.value || 0}

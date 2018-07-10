@@ -14,10 +14,10 @@ export const setTiles = payload => ({type: SET_TILES, payload});
 export const flipTile = payload => ({type: FLIP_TILE, payload});
 export const flipAllTiles = payload => ({type: FLIP_ALL_TILES, payload});
 
-export const toggleTilePencilOne = tileKey => ({type: TOGGLE_PENCIL_ONE, payload: {tileKey, pencilKey: 'pencilOne'}});
-export const toggleTilePencilTwo = tileKey => ({type: TOGGLE_PENCIL_TWO, payload: {tileKey, pencilKey: 'pencilTwo'}});
-export const toggleTilePencilThree = tileKey => ({type: TOGGLE_PENCIL_THREE, payload: {tileKey, pencilKey: 'pencilThree'}});
-export const toggleTilePencilVoltorb = tileKey => ({type: TOGGLE_PENCIL_VOLTORB, payload: {tileKey, pencilKey: 'pencilVoltorb'}});
+export const toggleTilePencilOne = (tileKey, setTo = null) => ({type: TOGGLE_PENCIL_ONE, payload: {tileKey, setTo, pencilKey: 'pencilOne'}});
+export const toggleTilePencilTwo = (tileKey, setTo = null) => ({type: TOGGLE_PENCIL_TWO, payload: {tileKey, setTo, pencilKey: 'pencilTwo'}});
+export const toggleTilePencilThree = (tileKey, setTo = null) => ({type: TOGGLE_PENCIL_THREE, payload: {tileKey, setTo, pencilKey: 'pencilThree'}});
+export const toggleTilePencilVoltorb = (tileKey, setTo = null) => ({type: TOGGLE_PENCIL_VOLTORB, payload: {tileKey, setTo, pencilKey: 'pencilVoltorb'}});
 export const actions = {
 	setTiles,
 	flipTile,
@@ -47,7 +47,11 @@ export default function(state = INITIAL_STATE, action) {
 			let newState = {...state};
 			let tileKey = action.payload.tileKey;
 			let pencilKey = action.payload.pencilKey;
-			newState[tileKey][pencilKey] = !newState[tileKey][pencilKey];
+			let setTo = action.payload.setTo;
+			if (setTo !== undefined && setTo !== null)
+				newState[tileKey][pencilKey] = setTo;
+			else
+				newState[tileKey][pencilKey] = !newState[tileKey][pencilKey];
 			return newState;
 
 		case FLIP_TILE:
