@@ -90,16 +90,16 @@ class Board extends Component {
 			for (let i = 0; i < keys.length; i++) {
 				const key = keys[i];
 				const tile = this.props.tiles[key];
-				this.props.flipTile(key);
 				if (tile.contents === vars.VOLTORB) {
 					this.loseGame();
 					lostGame = true;
 					break;
-				} else if (tile.contents > 1) {
+				} else if (!tile.flipped && tile.contents > 1) {
 					valueTilesFound++;
 				}
+				this.props.flipTile(key);
 			}
-			if (!lostGame)
+			if (!lostGame && valueTilesFound > 0)
 				this.checkForWinState(valueTilesFound);
 		}
 	}
