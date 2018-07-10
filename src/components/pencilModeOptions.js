@@ -5,6 +5,9 @@ import * as vars from '../vars';
 const selectedButtonClass = "btn-default";
 
 const PencilModeOptions = (props) => {
+	const getLockButtonClassName = () => {
+		return `btn col-xs-3 ${props.pencil_mode === vars.LOCK? selectedButtonClass : 'btn-success'}`;
+	};
 	const getVoltorbButtonClassName = () => {
 		return `btn col-xs-3 ${props.pencil_mode === vars.VOLTORB? selectedButtonClass : 'btn-danger'}`;
 	};
@@ -27,12 +30,16 @@ const PencilModeOptions = (props) => {
 				<button className={getNumberButtonClassName(props.pencil_mode === vars.THREE)} onClick={props.threeClick}>
 					3
 				</button>
+				<button className={getLockButtonClassName(props.pencil_mode === vars.LOCK)} onClick={props.lockClick}>
+					lock
+				</button>
 			</div>
 		</div>
 	);
 }
 
 PencilModeOptions.propTypes = {
+	lockClick: PropTypes.func.isRequired,
 	voltorbClick: PropTypes.func.isRequired,
 	oneClick: PropTypes.func.isRequired,
 	twoClick: PropTypes.func.isRequired,

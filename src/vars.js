@@ -81,6 +81,7 @@ export const TWO_PERCENTAGE = {
 
 // #### pencil mode options ####
 // voltorb is shared with the one above
+export const LOCK = 'LOCK';
 export const ONE = 'ONE';
 export const TWO = 'TWO';
 export const THREE = 'THREE';

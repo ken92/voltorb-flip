@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import * as vars from '../vars';
 
 const getContents = props => {
+	if (!props.flipped && props.pencilLock)
+		return "LOCK";
+
 	var contents = props.flipped || props.header? props.contents : "";
 	if (contents === vars.VOLTORB)
 		contents = "";

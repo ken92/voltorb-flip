@@ -5,9 +5,10 @@ const Tile = function({x, y, contents, id, key}) {
 	this.y = y;
 	this.contents = contents;
 	this.flipped = false;
-
-
+	
+	
 	// #### pencil mode options ####
+	this.pencilLock = false;
 	this.pencilVoltorb = false;
 	this.pencilOne = false;
 	this.pencilTwo = false;

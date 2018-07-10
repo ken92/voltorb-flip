@@ -11,6 +11,8 @@ export const getPencilModeFromKey = (key) => {
 			return vars.TWO;
 		case '3':
 			return vars.THREE;
+		case 'l':
+			return vars.LOCK;
 		case 'p':
 			return vars.TOGGLE_PENCIL_MODE;
 

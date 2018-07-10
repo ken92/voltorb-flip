@@ -41,6 +41,8 @@ class Board extends Component {
 
 	pencilModeToPencilFunc = () => {
 		switch (this.props.pencil_mode) {
+			case vars.LOCK:
+				return this.props.toggleTilePencilLock;
 			case vars.ONE:
 				return this.props.toggleTilePencilOne;
 			case vars.TWO:
@@ -57,10 +59,13 @@ class Board extends Component {
 		}
 
 		else {
+			const tile = this.props.tiles[key];
+			if (tile.pencilLock)
+				return;
+
 			this.props.flipTile(key);
 
 			// do something according to tile contents
-			const tile = this.props.tiles[key];
 			console.log("clicked tile: ",tile);
 			if (tile.contents === vars.VOLTORB) {
 				this.loseGame();
@@ -186,6 +191,7 @@ Board.propTypes = {
 	showGameWinScreen: PropTypes.func.isRequired,
 	setLevel: PropTypes.func.isRequired,
 
+	toggleTilePencilLock: PropTypes.func.isRequired,
 	toggleTilePencilOne: PropTypes.func.isRequired,
 	toggleTilePencilTwo: PropTypes.func.isRequired,
 	toggleTilePencilThree: PropTypes.func.isRequired,

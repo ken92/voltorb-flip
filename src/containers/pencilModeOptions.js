@@ -11,6 +11,9 @@ class PencilModeOptions extends Component {
 	}
 
 	// #### pencil mode button functions ####
+	lockClick = () => {
+		this.props.pencilModeOn(vars.LOCK);
+	}
 	voltorbClick = () => {
 		this.props.pencilModeOn(vars.VOLTORB);
 	}
@@ -27,6 +30,7 @@ class PencilModeOptions extends Component {
 	render() {
 		return (
 			<PencilModeOptionsDisplay
+				lockClick={this.lockClick}
 				voltorbClick={this.voltorbClick}
 				oneClick={this.oneClick}
 				twoClick={this.twoClick}
