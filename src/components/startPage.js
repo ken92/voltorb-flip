@@ -22,6 +22,14 @@ const StartPage = (props) => {
 				</div>
 			</div>
 			<div className="row">
+				<div className="col-xs-12">
+					<label htmlFor="difficulty">
+						Difficulty:
+					</label>
+					{props.difficultyInput}
+				</div>
+			</div>
+			<div className="row">
 				<button className="btn btn-primary col-xs-12" style={{marginTop: '10px'}} onClick={props.startButtonClick}>Start!</button>
 			</div>
 		</div>
@@ -31,6 +39,7 @@ const StartPage = (props) => {
 StartPage.propTypes = {
 	rowsInput: PropTypes.element.isRequired,
 	colsInput: PropTypes.element.isRequired,
+	difficultyInput: PropTypes.element.isRequired,
 	startButtonClick: PropTypes.func.isRequired
 };
 

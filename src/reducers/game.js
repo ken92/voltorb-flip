@@ -10,8 +10,8 @@ export const UPDATE_NUM_ROWS = 'GAME_UPDATE_NUM_ROWS';
 export const UPDATE_NUM_COLS = 'GAME_UPDATE_NUM_COLS';
 
 export const SET_NUM_VALUE_TILES_LEFT = 'GAME_SET_NUM_VALUE_TILES_LEFT';
-
 export const SET_LEVEL = 'GAME_SET_LEVEL';
+export const SET_DIFFICULTY = 'GAME_SET_DIFFICULTY';
 
 export const SET_PENCIL_MODE = 'GAME_SET_PENCIL_MODE';
 
@@ -33,8 +33,8 @@ export const updateNumRows = payload => ({type: UPDATE_NUM_ROWS, payload});
 export const updateNumCols = payload => ({type: UPDATE_NUM_COLS, payload});
 
 export const setNumValueTilesLeft = payload => ({type: SET_NUM_VALUE_TILES_LEFT, payload});
-
 export const setLevel = payload => ({type: SET_LEVEL, payload});
+export const setDifficulty = payload => ({type: SET_DIFFICULTY, payload});
 
 export const pencilModeOn = mode => ({type: SET_PENCIL_MODE, payload: mode});
 export const pencilModeOff = () => ({type: SET_PENCIL_MODE, payload: false});
@@ -55,8 +55,8 @@ export const actions = {
 	updateNumCols,
 
 	setNumValueTilesLeft,
-
 	setLevel,
+	setDifficulty,
 
 	pencilModeOn,
 	pencilModeOff
@@ -112,6 +112,9 @@ export default function(state = INITIAL_STATE, action) {
 
 		case SET_LEVEL:
 			return {...state, level: action.payload};
+
+		case SET_DIFFICULTY:
+			return {...state, difficulty_setting: action.payload};
 
 		default:
 			return state;
