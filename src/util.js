@@ -59,19 +59,20 @@ export const keyIsInCol = (targetCol, key) => {
 
 
 // #### how many things to put in the board ####
-export const getNumFromPercentageRange = (total, {min_percentage, max_percentage}) => {
-	const percentage = getRandomInt(min_percentage, max_percentage);
-	return Math.round(total * (percentage / 100));
+export const getNumFromPercentageRange = (total, {min_percentage, max_percentage}, level, absolute_max_percentage) => {
+	const addLevelDifficulty = level - 1;
+	const percentage = getRandomInt(min_percentage, max_percentage) + addLevelDifficulty;
+	return Math.round(total * (Math.min(percentage, absolute_max_percentage)/ 100));
 };
-export const getNumVoltorbs = (totalNumTiles, difficulty_setting) => {
-	return Math.max(getNumFromPercentageRange(totalNumTiles, getDifficultyConfigurationFromMode(difficulty_setting)), vars.MINIMUM_VOLTORBS);
+export const getNumVoltorbs = (totalNumTiles, difficulty_setting, level) => {
+	return Math.max(getNumFromPercentageRange(totalNumTiles, getDifficultyConfigurationFromMode(difficulty_setting)[vars.VOLTORB], level, vars.MAXIMUM_VOLTORBS), vars.MINIMUM_VOLTORBS);
 };
 
-export const getNumThrees = (numFreeTiles) => {
-	return Math.max(getNumFromPercentageRange(numFreeTiles, vars.THREE_PERCENTAGE), vars.MINIMUM_THREES);
+export const getNumThrees = (numFreeTiles, difficulty_setting, level) => {
+	return Math.max(getNumFromPercentageRange(numFreeTiles, getDifficultyConfigurationFromMode(difficulty_setting)[vars.THREE], level, vars.MAXIMUM_THREES), vars.MINIMUM_THREES);
 };
-export const getNumTwos = (numFreeTiles) => {
-	return Math.max(getNumFromPercentageRange(numFreeTiles, vars.TWO_PERCENTAGE), vars.MINIMUM_TWOS);
+export const getNumTwos = (numFreeTiles, difficulty_setting, level) => {
+	return Math.max(getNumFromPercentageRange(numFreeTiles, getDifficultyConfigurationFromMode(difficulty_setting)[vars.TWO], level, vars.MAXIMUM_TWOS), vars.MINIMUM_TWOS);
 };
 
 
@@ -87,14 +88,17 @@ export const placeContentInArray = (content, contentArray, numSpotsToTake, freeT
 	});
 };
 
-export const getNewTileContentsArray = (rows, columns, difficulty_setting) => {
+export const getNewTileContentsArray = (rows, columns, difficulty_setting, level) => {
 	return new Promise(async (resolve, reject) => {
 		const totalNumTiles = rows * columns;
 		const tileContentsArray = Array(totalNumTiles).fill(1);
 
-		const numVoltorbs = getNumVoltorbs(totalNumTiles, difficulty_setting);
-		const numThrees = getNumThrees(totalNumTiles - numVoltorbs);
-		const numTwos = getNumTwos(totalNumTiles - numVoltorbs - numThrees);
+		const numVoltorbs = getNumVoltorbs(totalNumTiles, difficulty_setting, level);
+		const numThrees = getNumThrees(totalNumTiles - numVoltorbs, difficulty_setting, level);
+		const numTwos = getNumTwos(totalNumTiles - numVoltorbs - numThrees, difficulty_setting, level);
+		console.log("numVoltorbs",numVoltorbs);
+		console.log("numThrees",numThrees);
+		console.log("numTwos",numTwos);
 
 		const freeTiles = [];
 		for (let i = 0; i < totalNumTiles; i++) {
@@ -109,8 +113,8 @@ export const getNewTileContentsArray = (rows, columns, difficulty_setting) => {
 	});
 };
 
-export const createNewTilesBoard = async (rows, columns, difficulty_setting) => {
-	const contentArray = await getNewTileContentsArray(rows, columns, difficulty_setting);
+export const createNewTilesBoard = async (rows, columns, difficulty_setting, level) => {
+	const contentArray = await getNewTileContentsArray(rows, columns, difficulty_setting, level);
 	const newTiles = {};
 	const newHeaders = {};
 	let currentTileId = 1;

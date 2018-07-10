@@ -8,14 +8,14 @@ import {createNewTilesBoard} from '../util';
 export default function(ComposedComponent) {
 	class CreateNewBoardHoc extends Component {
 		createNewBoard = async () => {
-			const {tiles, headers, numValueTiles} = await createNewTilesBoard(this.props.num_rows, this.props.num_cols, this.props.difficulty_setting);
+			const {tiles, headers, numValueTiles} = await createNewTilesBoard(this.props.num_rows, this.props.num_cols, this.props.difficulty_setting, this.props.level);
 			this.props.setTiles(tiles);
 			this.props.setHeaders(headers);
 			this.props.setNumValueTilesLeft(numValueTiles);
 			this.props.startGame();
-			console.log(tiles);
-			console.log(headers);
-			console.log(numValueTiles);
+			console.log("tiles",tiles);
+			console.log("headers",headers);
+			console.log("numValueTiles:",numValueTiles);
 		}
 
 		render() {
@@ -33,6 +33,7 @@ export default function(ComposedComponent) {
 		setNumValueTilesLeft: PropTypes.func.isRequired,
 		startGame: PropTypes.func.isRequired,
 
+		level: PropTypes.number.isRequired,
 		num_cols: PropTypes.number.isRequired,
 		num_rows: PropTypes.number.isRequired,
 		difficulty_setting: PropTypes.string.isRequired
@@ -41,6 +42,7 @@ export default function(ComposedComponent) {
 
 	function mapStateToProps(state) {
 		return {
+			level: state.game.level,
 			difficulty_setting: state.game.difficulty_setting,
 			num_cols: state.game.num_cols,
 			num_rows: state.game.num_rows
