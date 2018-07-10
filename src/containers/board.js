@@ -98,8 +98,6 @@ class Board extends Component {
 				} else if (tile.contents > 1) {
 					valueTilesFound++;
 				}
-
-				// this.onTileClick(keys[i]);
 			}
 			if (!lostGame)
 				this.checkForWinState(valueTilesFound);
@@ -116,7 +114,6 @@ class Board extends Component {
 		);
 	}
 	generateHeaderTile = (headerTile = {}, key = '') => {
-		// TODO add numVoltorbs
 		return (
 			<Tile key={headerTile.key || key}
 				onClick={() => {this.onHeaderClick(headerTile.key)}}
