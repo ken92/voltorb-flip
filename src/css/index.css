@@ -30,12 +30,20 @@ body {
   text-align: center;
 }
 
+.tile.unflipped {
+  background-image:
+    linear-gradient(45deg, #156e2c 25%, #38994c96 25%, #38994c96 75%, #156e2c 75%, #156e2c 100%),
+    linear-gradient(45deg, #156e2c 25%, #38994c96 25%, #38994c96 75%, #156e2c 75%, #156e2c 100%);
+  background-size: 200px 200px;
+  background-position: 0 0, 40px 40px;
+}
+
 .tile.header {
   background: #e49696;
 }
 
-.tile.red {
-  background: #d84444;
+.tile.green {
+  background: #5aaa6b;
 }
 
 .tile.voltorb {

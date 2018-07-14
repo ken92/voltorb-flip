@@ -23,8 +23,10 @@ const getClassName = props => {
 		return "header";
 	else if (props.flipped && props.contents === vars.VOLTORB)
 		return "voltorb";
+	else if (!props.flipped)
+		return "unflipped";
 	else
-		return "red";
+		return "green";
 };
 
 const getRow = (rowNum, col1 = '', col2 = '', col3 = '') => {

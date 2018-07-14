@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import actions from '../reducers/actions';
 import GameScreenDisplay from '../components/gameScreen';
 import Board from './board';
+import Scoreboard from './scoreboard';
 import GameWinScreen from '../components/gameWinScreen';
 import GameOverScreen from '../components/gameOverScreen';
 import * as vars from '../vars';
@@ -39,13 +40,17 @@ class GameScreen extends Component {
 	}
 
 	render() {
+		const scoreboard = <Scoreboard />;
+		const board = <Board />;
+
 		if (this.props.show_game_over_screen) {
 			return (
 				<GameOverScreen
 					backToMenu={this.backToMenu}
 					playAgain={this.playAgain}
 				>
-					<Board />
+					{scoreboard}
+					{board}
 				</GameOverScreen>
 			);
 		}
@@ -55,7 +60,8 @@ class GameScreen extends Component {
 				<GameWinScreen
 					nextLevel={this.nextLevel}
 				>
-					<Board />
+					{scoreboard}
+					{board}
 				</GameWinScreen>
 			);
 		}
@@ -67,7 +73,8 @@ class GameScreen extends Component {
 				pencil_mode={this.props.pencil_mode}
 				level={this.props.level}
 			>
-				<Board />
+				{scoreboard}
+				{board}
 			</GameScreenDisplay>
 		);
 	}

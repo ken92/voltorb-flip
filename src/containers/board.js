@@ -21,6 +21,7 @@ class Board extends Component {
 		this.props.stopGame();
 		this.props.showGameOverScreen();
 		this.props.setLevel(1);
+		this.props.setCurrentLevelScore(0);
 	}
 	winGame = () => {
 		console.log("win!");
@@ -28,6 +29,8 @@ class Board extends Component {
 		this.props.stopGame();
 		this.props.showGameWinScreen();
 		this.props.setLevel(this.props.level + 1);
+		this.props.setTotalScore(this.props.total_score + this.props.current_level_score);
+		this.props.setCurrentLevelScore(0);
 	}
 
 	checkForWinState = numValueTilesFound => {
@@ -37,6 +40,13 @@ class Board extends Component {
 		if (valueTilesLeft === 0) {
 			this.winGame();
 		}
+	}
+
+	updateScore = (points, callback = null) => {
+		if (points > 0)
+			this.props.setCurrentLevelScore(this.props.current_level_score + points, callback);
+		else if (callback)
+			callback();
 	}
 
 	pencilModeToPencilFunc = () => {
@@ -70,7 +80,7 @@ class Board extends Component {
 			if (tile.contents === vars.VOLTORB) {
 				this.loseGame();
 			} else if (tile.contents > 1) {
-				this.checkForWinState(1);
+				this.updateScore(tile.contents, () => {this.checkForWinState(1)});
 			}
 		}
 	}
@@ -90,6 +100,7 @@ class Board extends Component {
 		}
 
 		else {
+			let newPoints = 0;
 			let valueTilesFound = 0;
 			let lostGame = false;
 			for (let i = 0; i < keys.length; i++) {
@@ -101,11 +112,13 @@ class Board extends Component {
 					break;
 				} else if (!tile.flipped && tile.contents > 1) {
 					valueTilesFound++;
+					newPoints += tile.contents;
 				}
 				this.props.flipTile(key);
 			}
-			if (!lostGame && valueTilesFound > 0)
-				this.checkForWinState(valueTilesFound);
+			if (!lostGame && valueTilesFound > 0) {
+				this.updateScore(newPoints, () => {this.checkForWinState(valueTilesFound)});
+			}
 		}
 	}
 
@@ -190,6 +203,8 @@ Board.propTypes = {
 	showGameOverScreen: PropTypes.func.isRequired,
 	showGameWinScreen: PropTypes.func.isRequired,
 	setLevel: PropTypes.func.isRequired,
+	setTotalScore: PropTypes.func.isRequired,
+	setCurrentLevelScore: PropTypes.func.isRequired,
 
 	toggleTilePencilLock: PropTypes.func.isRequired,
 	toggleTilePencilOne: PropTypes.func.isRequired,
@@ -205,7 +220,9 @@ Board.propTypes = {
 		PropTypes.bool
 	]).isRequired,
 	level: PropTypes.number.isRequired,
-	game_running: PropTypes.bool.isRequired
+	game_running: PropTypes.bool.isRequired,
+	current_level_score: PropTypes.number.isRequired,
+	total_score: PropTypes.number.isRequired
 };
 
 
@@ -217,7 +234,9 @@ function mapStateToProps(state) {
 		num_value_tiles_left: state.game.num_value_tiles_left,
 		num_cols: state.game.num_cols,
 		pencil_mode: state.game.pencil_mode,
-		game_running: state.game.game_running
+		game_running: state.game.game_running,
+		current_level_score: state.game.current_level_score,
+		total_score: state.game.total_score
 	};
 }
 

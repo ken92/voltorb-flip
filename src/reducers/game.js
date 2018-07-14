@@ -12,6 +12,8 @@ export const UPDATE_NUM_COLS = 'GAME_UPDATE_NUM_COLS';
 export const SET_NUM_VALUE_TILES_LEFT = 'GAME_SET_NUM_VALUE_TILES_LEFT';
 export const SET_LEVEL = 'GAME_SET_LEVEL';
 export const SET_DIFFICULTY = 'GAME_SET_DIFFICULTY';
+export const SET_CURRENT_LEVEL_SCORE = 'GAME_SET_CURRENT_LEVEL_SCORE';
+export const SET_TOTAL_SCORE = 'GAME_SET_TOTAL_SCORE';
 
 export const SET_PENCIL_MODE = 'GAME_SET_PENCIL_MODE';
 
@@ -36,6 +38,9 @@ export const setNumValueTilesLeft = payload => ({type: SET_NUM_VALUE_TILES_LEFT,
 export const setLevel = payload => ({type: SET_LEVEL, payload});
 export const setDifficulty = payload => ({type: SET_DIFFICULTY, payload});
 
+export const setCurrentLevelScore = (payload, callback = null) => ({type: SET_CURRENT_LEVEL_SCORE, payload, callback});
+export const setTotalScore = (payload, callback = null) => ({type: SET_TOTAL_SCORE, payload, callback});
+
 export const pencilModeOn = mode => ({type: SET_PENCIL_MODE, payload: mode});
 export const pencilModeOff = () => ({type: SET_PENCIL_MODE, payload: false});
 export const actions = {
@@ -58,6 +63,9 @@ export const actions = {
 	setLevel,
 	setDifficulty,
 
+	setCurrentLevelScore,
+	setTotalScore,
+
 	pencilModeOn,
 	pencilModeOff
 };
@@ -77,11 +85,19 @@ const INITIAL_STATE = {
 
 	num_value_tiles_left: 0,
 
-	pencil_mode: false
+	pencil_mode: false,
+
+	current_level_score: 0,
+	total_score: 0
 };
 
 
 export default function(state = INITIAL_STATE, action) {
+	// handles every action callback
+	if (action.callback) {
+		setTimeout(action.callback, 150);
+	}
+
     switch (action.type) {
 		case SET_SHOW_START_SCREEN:
 			return {...state, show_start_screen: action.payload};
@@ -115,6 +131,12 @@ export default function(state = INITIAL_STATE, action) {
 
 		case SET_DIFFICULTY:
 			return {...state, difficulty_setting: action.payload};
+
+		case SET_TOTAL_SCORE:
+			return {...state, total_score: action.payload};
+
+		case SET_CURRENT_LEVEL_SCORE:
+			return {...state, current_level_score: action.payload};
 
 		default:
 			return state;
