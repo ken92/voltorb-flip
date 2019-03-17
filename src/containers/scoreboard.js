@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import actions from '../reducers/actions';
 import ScoreboardDisplay from '../components/scoreboard';
 
 class Scoreboard extends Component {
